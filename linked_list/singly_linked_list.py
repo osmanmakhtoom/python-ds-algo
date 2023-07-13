@@ -10,6 +10,7 @@ class SinglyLinkedList:
         """ Initialize SinglyLinkedList new instance """
         self.tail = None
         self.head = None
+        self.len = 0
 
     @profile
     def __iter__(self):
@@ -22,21 +23,19 @@ class SinglyLinkedList:
     @profile
     def __len__(self):
         """ Return length of SinglyLinkedList's current instance """
-        size = 0
-        for _ in iter(self):
-            size += 1
-        return size
+        return self.len
 
     @profile
     def insert(self, index: int, data: Any) -> Node:
         """ Insert new node at given index of SinglyLinkedList's current instance """
         node = Node(data)
-        if index > len(self):
+        if index > self.len:
             raise ValueError("Index out of range")
         elif index == 0:
             node.next = self.head
             self.head = node
-        elif index == len(self):
+            self.len += 1
+        elif index == self.len:
             self.append(data)
         else:
             prev = self.head
@@ -44,6 +43,7 @@ class SinglyLinkedList:
                 if index == count:
                     node.next = current
                     prev.next = node
+                    self.len += 1
                     break
                 prev = current
         return node
@@ -51,13 +51,13 @@ class SinglyLinkedList:
     @profile
     def __getitem__(self, index: int) -> Node:
         """ get node at given index of SinglyLinkedList's current instance """
-        if index > len(self):
+        if index > self.len:
             raise ValueError("Index out of range")
         elif index == 0:
             return self.head
-        elif index == len(self) - 1:
+        elif index == self.len - 1:
             return self.tail
-        elif index == len(self):
+        elif index == self.len:
             return self.tail.next
         else:
             for count, current in enumerate(self):
@@ -85,6 +85,7 @@ class SinglyLinkedList:
         else:
             self.head = node
             self.tail = node
+        self.len += 1
         return node
 
     @profile
@@ -92,22 +93,25 @@ class SinglyLinkedList:
         """ Remove and return node by given index or last node from SinglyLinkedList's current instance """
         if self.head is None:
             raise ValueError("No data in this list, we need at least one item")
-        elif index > len(self):
+        elif index > self.len:
             raise ValueError("Index out of range")
         elif index == 0:
             current = self.head
             self.head = current.next
+            self.len -= 1
             return current
-        elif index == -1 or index == len(self) - 1:
+        elif index == -1 or index == self.len - 1:
             current = self.tail
-            prev = self[len(self) - 2]
+            prev = self[self.len - 2]
             self.tail = prev
             self.tail.next = None
+            self.len -= 1
             return current
         else:
             prev = self[index - 1]
             current = prev.next
             prev.next = current.next
+            self.len -= 1
             return current
 
     @profile
@@ -115,6 +119,7 @@ class SinglyLinkedList:
         """ Clear all nodes from SinglyLinkedList's current instance """
         self.head = None
         self.tail = None
+        self.len = 0
 
 
 nodes = SinglyLinkedList()
@@ -129,7 +134,7 @@ for i in iter(nodes):
     print(repr(i))
 print(len(nodes))
 
-print(nodes.search([5, 6, 7, 8, "BYE"]))
+print(nodes.search("Hi"))
 
 print(repr(nodes.pop()))
 print(len(nodes))
