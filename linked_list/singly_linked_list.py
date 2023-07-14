@@ -120,30 +120,3 @@ class SinglyLinkedList:
         self.head = None
         self.tail = None
         self.len = 0
-
-
-nodes = SinglyLinkedList()
-nodes.append([1, 2, 3])
-nodes.append({5, 6, 7})
-nodes.append("Hi")
-nodes.append({"ID": 1, "name": "Osman", "last_name": "Makhtoom"})
-nodes.insert(3, [4, "Hi there"])
-nodes.insert(len(nodes), [5, 6, 7, 8, 9, "Bye"])
-
-for i in iter(nodes):
-    print(repr(i))
-print(len(nodes))
-
-print(nodes.search("Hi"))
-
-print(repr(nodes.pop()))
-print(len(nodes))
-
-print(repr(nodes.pop(0)))
-print(len(nodes))
-
-for i in range(len(nodes)):
-    print(repr(nodes[i]))
-
-nodes.clear()
-print(len(nodes))
